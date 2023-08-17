@@ -1,0 +1,44 @@
+[
+  {
+    "MountId": "56e62dd7-241f-41e9-8c6b-dd4ca4513e62",
+    "AncestorCsetIds": [
+      68
+    ],
+    "SourceCsetId": 79,
+    "DestinationCsetId": 68,
+    "FileConflicts": [
+      {
+        "Path": "/Packages/manifest.json",
+        "ItemId": 128,
+        "ParentItemId": 124,
+        "BaseRevId": 2944,
+        "SourceRevId": 14035,
+        "DestinationRevId": 2944
+      },
+      {
+        "Path": "/Packages/packages-lock.json",
+        "ItemId": 129,
+        "ParentItemId": 124,
+        "BaseRevId": 2945,
+        "SourceRevId": 14036,
+        "DestinationRevId": 2945
+      },
+      {
+        "Path": "/ProjectSettings/ProjectVersion.txt",
+        "ItemId": 141,
+        "ParentItemId": 126,
+        "BaseRevId": 2699,
+        "SourceRevId": 13899,
+        "DestinationRevId": 2699
+      },
+      {
+        "Path": "/Assets/Resources/VuforiaConfiguration.asset",
+        "ItemId": 465,
+        "ParentItemId": 381,
+        "BaseRevId": 2960,
+        "SourceRevId": 14033,
+        "DestinationRevId": 2960
+      }
+    ]
+  }
+]
