@@ -8,23 +8,20 @@ public class BallClick : MonoBehaviour
 {
     private string [] valores;
     public GameObject myHoof;
-    private Animator _victoryAnimator;
     public AudioSource audio;
-    public AudioSource audioFelicidades;
     private  ControlGame controlGame;
     public Transform puntoA;
     public Transform puntoB;
     private float tiempo = 0.6f;
     public float alturaMaxima = 0.4f;
     private int turno;
-
+    private bool startGame = false;
 
 
     // Start is called before the first frame update
     void Start()
     {
         controlGame = myHoof.GetComponent<ControlGame>();
-        _victoryAnimator = GameObject.Find("VictoryPanel").GetComponent<Animator>();
         valores = controlGame.getArray();
         turno = controlGame.getTurno();
     }
@@ -131,11 +128,12 @@ public class BallClick : MonoBehaviour
 
         // Ensure the final position is exactly puntoB
         transform.parent.localPosition = endPosition;
-        Debug.Log("Destino: " + puntoB.name + " - Coordenadas: " + endPosition);
+        controlGame.verificarJuegoGanado();
     }
 
     public bool moveBall(string name)
     {
+        name = name == "" ? gameObject.name : name;
         valores = controlGame.getArray();
         audio.Play();
         int indexBallV = returnBallIndex(name);
@@ -147,8 +145,6 @@ public class BallClick : MonoBehaviour
             valores[indexBallV] = "null";
             controlGame.setArray(valores);
     
-            //find object by name from parent
-            Debug.Log("Valor i: " + i);
             GameObject holeLlegada = transform.parent.parent.Find("hole" + (i+1)).gameObject;
             this.turno  = this.turno == 0 ? 1 : 0; //cambiar turno
             controlGame.setTurno(this.turno);
@@ -205,7 +201,10 @@ public class BallClick : MonoBehaviour
     private void position2(string name){
         int emptySpace =  returnEmptySpace();
 
-        if(emptySpace == 1 && turno == 1)
+        if(emptySpace == 0 && ballInPosition(1) == 0 && turno == 1){
+            moveBall(name);
+        }
+        else if(emptySpace == 1 && turno == 1)
         {
             moveBall(name);
         }
@@ -222,7 +221,7 @@ public class BallClick : MonoBehaviour
     private void position3(string name){
         int emptySpace =  returnEmptySpace();
 
-        if(emptySpace == 1 && turno == 1)
+        if(emptySpace == 0 && turno == 1)
         {
             moveBall(name);
         }
@@ -539,6 +538,13 @@ public class BallClick : MonoBehaviour
 
     public void actionToDo()
     {
+        if(controlGame.startGame == false){
+            Debug.Log("entro");
+            controlGame.StartGame();
+        }else{
+            Debug.Log("no entro");
+            Debug.Log(controlGame.startGame);
+        }
         turno = controlGame.getTurno();
         int ballIndex = returnBallIndex(gameObject.name);
         int num = int.Parse(getNum(gameObject.name));
@@ -548,7 +554,6 @@ public class BallClick : MonoBehaviour
         }else{
             turno = 1;
         }
-        Debug.Log("Numero: " + num + " Ball Index: " + ballIndex + " Turno: " + turno );
 
         if(ballIndex == 0){
             position0(gameObject.name);
