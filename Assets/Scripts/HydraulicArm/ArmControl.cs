@@ -15,6 +15,18 @@ public class ArmControl : MonoBehaviour
     public GameObject thirdSection;
     public Slider sliderThirdSection; // Arrastra el Slider aquí desde el Inspector
 
+    public GameObject leftArm;
+    public GameObject rightArm;
+    public GameObject leftGrapple;
+    public GameObject rightGrapple;
+    public Slider sliderFourthSection; // Arrastra el Slider aquí desde el Inspector
+
+    public GameObject cubo;
+
+    private bool fisrtTime = true;
+
+    
+
     // Start is called before the first frame update
 
     void Start()
@@ -31,21 +43,38 @@ public class ArmControl : MonoBehaviour
     public void moveFirstSection()
     {
         float normalizedRotation = Mathf.Clamp(sliderFirstSection.value, -90f, 90f);
-        Debug.Log("Normalized Slider value: " + normalizedRotation);
+
         firstSection.transform.localRotation = Quaternion.Euler(0f, normalizedRotation, 0f);
+
+        if(fisrtTime)
+        {
+            fisrtTime = false;
+            //activar gravedad del cubo
+            cubo.GetComponent<Rigidbody>().useGravity = true;
+        }
     }
 
     public void moveSecondSection()
     {
         float normalizedRotation = Mathf.Clamp(sliderSecondSection.value, -115f, -40f);
-        Debug.Log("Normalized Slider value: " + normalizedRotation);
+       
         secondSection.transform.localRotation = Quaternion.Euler(normalizedRotation, 0f, 0f);
     }
 
     public void moveThirdSection()
     {
         float normalizedRotation = Mathf.Clamp(sliderThirdSection.value, -50f, 13f);
-        Debug.Log("Normalized Slider value: " + normalizedRotation);
+     
         thirdSection.transform.localRotation = Quaternion.Euler(normalizedRotation, 0f, 0f);
+    }
+
+    public void moveFourthSection()
+    {
+        float normalizedRotation = Mathf.Clamp(sliderFourthSection.value, 61f, 125f);
+
+        leftArm.transform.localRotation = Quaternion.Euler(0f, 0f, normalizedRotation);
+        leftGrapple.transform.LookAt(rightGrapple.transform.position);
+        rightArm.transform.localRotation = Quaternion.Euler(0f, -180f, normalizedRotation);
+        rightGrapple.transform.LookAt(leftGrapple.transform.position);
     }
 }
